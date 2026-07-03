@@ -25,19 +25,15 @@ class BrowserManager {
                     break;
                 default:
                     this.browser = await playwright_1.chromium.launch({
-                        channel: "chrome",
                         headless: this.headless,
                         args: [
                             "--no-sandbox",
                             "--disable-setuid-sandbox",
+                            "--disable-dev-shm-usage",
                             "--disable-gpu",
                             "--disable-blink-features=AutomationControlled",
-                            "--disable-web-security",
-                            "--disable-site-isolation-trials",
-                            "--disable-features=IsolateOrigins,site-per-process",
-                            "--disable-infobars",
-                            "--start-maximized"
-                        ],
+                            "--disable-infobars"
+                        ]
                     });
             }
         }
