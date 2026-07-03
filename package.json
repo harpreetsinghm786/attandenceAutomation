@@ -1,7 +1,7 @@
 {
   "name": "daily-attendence",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server/app.ts",
   "scripts": {
     "build": "tsc",
     "start": "node dist/server/app.js",
