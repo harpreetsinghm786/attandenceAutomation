@@ -1,40 +1,22 @@
 {
-    "compilerOptions": {
-        /* Language and Module System */
-        "target": "ESNext",
-        "module": "ESNext",
-        "moduleResolution": "node",
-        "lib": [
-            "ESNext",
-            "DOM"
-        ],
-        "allowSyntheticDefaultImports": true,
-        "esModuleInterop": true,
-        "resolveJsonModule": true,
-        /* Project Structure */
-        "rootDir": "./server",
-        "outDir": "./dist",
-        "baseUrl": "./server",
-        /* Strictness */
-        "strict": true,
-        "skipLibCheck": true,
-        "forceConsistentCasingInFileNames": true,
-        /* Type Definitions */
-        "types": [
-            "node"
-        ],
-        /* Emit Options */
-        "noEmitOnError": true,
-        "noImplicitAny": false,
-        "sourceMap": true,
-        /* ESM Support */
-        "allowImportingTsExtensions": false
-    },
-    "include": [
-        "server/**/*.ts"
-    ],
-    "exclude": [
-        "node_modules",
-        "dist"
-    ]
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+
+    "rootDir": "./server",
+    "outDir": "./dist",
+
+    "strict": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "sourceMap": true,
+    "types": ["node"]
+  },
+  "include": ["server/**/*.ts"],
+  "exclude": ["node_modules", "dist"]
 }
