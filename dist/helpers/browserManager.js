@@ -1,6 +1,9 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.BrowserManager = void 0;
 // src/core/browserManager.ts
-import { chromium, firefox, webkit } from "playwright";
-export class BrowserManager {
+const playwright_1 = require("playwright");
+class BrowserManager {
     static browser = null;
     static browserType = process.env.BROWSER || "chromium";
     static headless = (() => {
@@ -15,13 +18,13 @@ export class BrowserManager {
         if (!this.browser) {
             switch (this.browserType) {
                 case "firefox":
-                    this.browser = await firefox.launch({ headless: this.headless });
+                    this.browser = await playwright_1.firefox.launch({ headless: this.headless });
                     break;
                 case "webkit":
-                    this.browser = await webkit.launch({ headless: this.headless });
+                    this.browser = await playwright_1.webkit.launch({ headless: this.headless });
                     break;
                 default:
-                    this.browser = await chromium.launch({
+                    this.browser = await playwright_1.chromium.launch({
                         channel: "chrome",
                         headless: this.headless,
                         args: [
@@ -58,4 +61,5 @@ export class BrowserManager {
         return { context, page };
     }
 }
+exports.BrowserManager = BrowserManager;
 //# sourceMappingURL=browserManager.js.map
