@@ -32,6 +32,7 @@ export class GreythrPage {
          await this.page.fill(this.usernameInput, process.env.GREYTHR_USERNAME || "");
          await this.page.fill(this.passwordInput, process.env.GREYTHR_PASSWORD || "");
          await this.page.click(this.loginButton);
+         await this.page.waitForURL(/ess\/home/, { timeout: 30000 });
          await this.page.waitForLoadState("domcontentloaded");
          await this.page.waitForLoadState("networkidle");
          console.log("Logged in to greythr successfully");
