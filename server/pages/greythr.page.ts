@@ -36,20 +36,24 @@ export class GreythrPage {
          await this.page.waitForLoadState("networkidle");
          console.log("Logged in to greythr successfully");
       } catch (error) {
-         await this.page.screenshot({ path: '/tmp/debug.png', fullPage: true });
-         console.log('Page content check:', await this.page.content());
          console.error("Error logging in to greythr", error);
       }
    }
 
    async toggleAttendance() {
-      const attendanceButton = this.page
-         .locator('.btn-container')
-         .getByRole('button', { name: /Sign In|Sign Out/ });
-      await attendanceButton.waitFor({ state: 'visible' });
-      const action = (await attendanceButton.textContent())?.trim();
-      console.log(`Current attendance state: ${action}`);
-      await attendanceButton.click();
-      return action;
+      try{
+         const attendanceButton = this.page
+            .locator('.btn-container')
+            .getByRole('button', { name: /Sign In|Sign Out/ });
+         await attendanceButton.waitFor({ state: 'visible' });
+         const action = (await attendanceButton.textContent())?.trim();
+         console.log(`Current attendance state: ${action}`);
+         await attendanceButton.click();
+         return action;
+      } catch (error) {
+         await this.page.screenshot({ path: '/tmp/debug.png', fullPage: true });
+         console.log('Page content check:', await this.page.content());
+         console.error("Error toggling attendance", error);
+      }
    }
 }
