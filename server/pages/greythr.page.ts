@@ -33,9 +33,8 @@ loginToGreythr = async () => {
         await this.page.fill(this.usernameInput, process.env.GREYTHR_USERNAME || "");
            console.log('Username filled, filling password...');
         await this.page.fill(this.passwordInput, process.env.GREYTHR_PASSWORD || "");
-           console.log('clicked on the login button...');
+           console.log('clicked on the login');
         await this.page.click(this.loginButton);
-        await this.page.waitForSelector('.btn-container', { timeout: 30000 });
         console.log("Logged in to greythr successfully");
     } catch (error) {
         console.error("Error logging in to greythr", error);
