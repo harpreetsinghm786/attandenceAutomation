@@ -16,30 +16,29 @@ export class GreythrPage {
       this.context = context;
    }
 
-   navigateToLoginpage = async () => {
-      try {
-         await this.page.goto("https://pipin.greythr.com/v3/portal/ess/home");
-         await this.page.waitForLoadState("domcontentloaded");
-         await this.page.waitForLoadState("networkidle");
-         console.log("Navigated to greythr webpage successfully");
-      } catch (error) {
-         console.error("Error navigating to greythr webpage", error);
-      }
-   }
+  navigateToLoginpage = async () => {
+    try {
+        await this.page.goto("https://pipin.greythr.com/v3/portal/ess/home");
+        await this.page.waitForSelector(this.usernameInput, { timeout: 30000 });
+        console.log("Navigated to greythr webpage successfully");
+    } catch (error) {
+        console.error("Error navigating to greythr webpage", error);
+        throw error;
+    }
+}
 
-   loginToGreythr = async () => {
-      try {
-         await this.page.fill(this.usernameInput, process.env.GREYTHR_USERNAME || "");
-         await this.page.fill(this.passwordInput, process.env.GREYTHR_PASSWORD || "");
-         await this.page.click(this.loginButton);
-         await this.page.waitForURL(/ess\/home/, { timeout: 30000 });
-         await this.page.waitForLoadState("domcontentloaded");
-         await this.page.waitForLoadState("networkidle");
-         console.log("Logged in to greythr successfully");
-      } catch (error) {
-         console.error("Error logging in to greythr", error);
-      }
-   }
+loginToGreythr = async () => {
+    try {
+        await this.page.fill(this.usernameInput, process.env.GREYTHR_USERNAME || "");
+        await this.page.fill(this.passwordInput, process.env.GREYTHR_PASSWORD || "");
+        await this.page.click(this.loginButton);
+        await this.page.waitForSelector('.btn-container', { timeout: 30000 });
+        console.log("Logged in to greythr successfully");
+    } catch (error) {
+        console.error("Error logging in to greythr", error);
+        throw error;
+    }
+}
 
    async toggleAttendance() {
     console.log('Looking for attendance button...');
