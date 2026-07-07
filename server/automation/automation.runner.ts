@@ -12,8 +12,6 @@ export async function runAutomationJob (processId: string){
     await greythrPage.toggleAttendance();
     await context.close();
     await page.close();
-    process.exit(1);
-
     console.log(`Automation job with processId: ${processId} completed successfully`);
   } catch (error) {
     console.error(`Error in automation job with processId: ${processId}`, error);

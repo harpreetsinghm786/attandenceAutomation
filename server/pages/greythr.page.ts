@@ -36,6 +36,8 @@ export class GreythrPage {
          await this.page.waitForLoadState("networkidle");
          console.log("Logged in to greythr successfully");
       } catch (error) {
+         await this.page.screenshot({ path: '/tmp/debug.png', fullPage: true });
+         console.log('Page content check:', await this.page.content());
          console.error("Error logging in to greythr", error);
       }
    }
