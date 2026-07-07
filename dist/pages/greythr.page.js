@@ -29,25 +29,33 @@ class GreythrPage {
         }
     };
     loginToGreythr = async () => {
+    try {
+        console.log('Filling username...');
+        await this.page.fill(this.usernameInput, process.env.GREYTHR_USERNAME || "");
+        console.log('Username filled, filling password...');
+        await this.page.fill(this.passwordInput, process.env.GREYTHR_PASSWORD || "");
+        console.log('clicked on the login');
+        await this.page.click(this.loginButton);
+
+        console.log('Current URL right after click:', this.page.url());
+        console.log('waiting for dashboard to hydrate...');
+
+        await this.page.waitForSelector('.btn-container', { timeout: 60000, state: 'attached' });
+        await this.page.waitForTimeout(1000);
+        console.log("Logged in to greythr successfully");
+    } catch (error) {
+        console.error("Error logging in to greythr", error);
+        console.error("URL at time of failure:", this.page.url());
         try {
-            console.log('Filling username...');
-            await this.page.fill(this.usernameInput, process.env.GREYTHR_USERNAME || "");
-            console.log('Username filled, filling password...');
-            await this.page.fill(this.passwordInput, process.env.GREYTHR_PASSWORD || "");
-            await this.page.click(this.loginButton);
-            console.log('clicked on the login');
-            console.log('waiting for dashboard to hydrate...');
-            // Let the OAuth redirect chain fully resolve, then wait for real hydrated content
-            await this.page.waitForSelector('.btn-container', { timeout: 60000, state: 'attached' });
-            console.log('.btn-container found, waiting for hydration...');
-            await this.page.waitForTimeout(1000); // let Stencil finish hydrating attributes/handlers
-            console.log("Logged in to greythr successfully");
+            await this.page.screenshot({ path: '/tmp/login-fail.png', fullPage: true });
+            const html = await this.page.content();
+            console.log('Page HTML at failure:', html.slice(0, 3000));
+        } catch (screenshotErr) {
+            console.error('Could not capture debug info:', screenshotErr);
         }
-        catch (error) {
-            console.error("Error logging in to greythr", error);
-            throw error;
-        }
-    };
+        throw error;
+    }
+}
     async toggleAttendance() {
         console.log('Looking for attendance button...');
         console.log('Current URL:', this.page.url());
