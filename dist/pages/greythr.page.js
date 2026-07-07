@@ -30,7 +30,6 @@ class GreythrPage {
     };
     loginToGreythr = async () => {
         try {
-            console.log("Attempting to log in to greythr...", process.env.GREYTHR_USERNAME, process.env.GREYTHR_PASSWORD);
             await this.page.fill(this.usernameInput, process.env.GREYTHR_USERNAME || "");
             await this.page.fill(this.passwordInput, process.env.GREYTHR_PASSWORD || "");
             await this.page.click(this.loginButton);
