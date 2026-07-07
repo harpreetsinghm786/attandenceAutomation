@@ -17,6 +17,6 @@ export async function runAutomationJob (processId: string){
     console.error(`Error in automation job with processId: ${processId}`, error);
     await context.close();
     await page.close();
-    process.exit(0);
+    throw error; 
   }
 };
