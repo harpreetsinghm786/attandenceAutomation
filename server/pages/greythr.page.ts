@@ -35,6 +35,9 @@ loginToGreythr = async () => {
         await this.page.fill(this.passwordInput, process.env.GREYTHR_PASSWORD || "");
            console.log('clicked on the login');
         await this.page.click(this.loginButton);
+          // Let the OAuth redirect chain fully resolve, then wait for real hydrated content
+      await this.page.waitForSelector('.btn-container', { timeout: 60000, state: 'attached' });
+      await this.page.waitForTimeout(1000); // let Stencil finish hydrating attributes/handlers
         console.log("Logged in to greythr successfully");
     } catch (error) {
         console.error("Error logging in to greythr", error);
@@ -51,7 +54,7 @@ loginToGreythr = async () => {
         .getByRole('button', { name: /Sign In|Sign Out/ });
     
     try {
-        await attendanceButton.waitFor({ state: 'visible', timeout: 15000 });
+        await attendanceButton.waitFor({ state: 'visible', timeout: 30000 });
     } catch (err) {
         console.error('Button never became visible. Current URL:', this.page.url());
         await this.page.screenshot({ path: '/tmp/debug-timeout.png', fullPage: true });
