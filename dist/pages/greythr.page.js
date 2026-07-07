@@ -42,6 +42,7 @@ class GreythrPage {
         }
     };
     async toggleAttendance() {
+        try{
         const attendanceButton = this.page
             .locator('.btn-container')
             .getByRole('button', { name: /Sign In|Sign Out/ });
@@ -50,6 +51,9 @@ class GreythrPage {
         console.log(`Current attendance state: ${action}`);
         await attendanceButton.click();
         return action;
+        }catch (error) {
+            console.error("Error toggling attendance", error);
+        }
     }
 }
 exports.GreythrPage = GreythrPage;
