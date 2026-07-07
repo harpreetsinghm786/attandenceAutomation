@@ -29,8 +29,11 @@ export class GreythrPage {
 
 loginToGreythr = async () => {
     try {
+         console.log('Filling username...');
         await this.page.fill(this.usernameInput, process.env.GREYTHR_USERNAME || "");
+           console.log('Username filled, filling password...');
         await this.page.fill(this.passwordInput, process.env.GREYTHR_PASSWORD || "");
+           console.log('clicked on the login button...');
         await this.page.click(this.loginButton);
         await this.page.waitForSelector('.btn-container', { timeout: 30000 });
         console.log("Logged in to greythr successfully");
