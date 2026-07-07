@@ -41,19 +41,26 @@ export class GreythrPage {
    }
 
    async toggleAttendance() {
-      try{
-         const attendanceButton = this.page
-            .locator('.btn-container')
-            .getByRole('button', { name: /Sign In|Sign Out/ });
-         await attendanceButton.waitFor({ state: 'visible' });
-         const action = (await attendanceButton.textContent())?.trim();
-         console.log(`Current attendance state: ${action}`);
-         await attendanceButton.click();
-         return action;
-      } catch (error) {
-         await this.page.screenshot({ path: '/tmp/debug.png', fullPage: true });
-         console.log('Page content check:', await this.page.content());
-         console.error("Error toggling attendance", error);
-      }
-   }
+    console.log('Looking for attendance button...');
+    console.log('Current URL:', this.page.url());
+    
+    const attendanceButton = this.page
+        .locator('.btn-container')
+        .getByRole('button', { name: /Sign In|Sign Out/ });
+    
+    try {
+        await attendanceButton.waitFor({ state: 'visible', timeout: 15000 });
+    } catch (err) {
+        console.error('Button never became visible. Current URL:', this.page.url());
+        await this.page.screenshot({ path: '/tmp/debug-timeout.png', fullPage: true });
+        const html = await this.page.content();
+        console.log('Page HTML snippet:', html.slice(0, 2000));
+        throw err;
+    }
+    
+    const action = (await attendanceButton.textContent())?.trim();
+    console.log(`Current attendance state: ${action}`);
+    await attendanceButton.click();
+    return action;
+}
 }
