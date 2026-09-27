@@ -26,97 +26,26 @@ export class GreythrPage {
             throw error;
         }
     }
+
     loginToGreythr = async () => {
         try {
-            console.log("Filling username...");
-            await this.page.fill(
-                this.usernameInput,
-                process.env.GREYTHR_USERNAME || ""
-            );
-
-            console.log("Username filled, filling password...");
-            await this.page.fill(
-                this.passwordInput,
-                process.env.GREYTHR_PASSWORD || ""
-            );
-
+            console.log('Filling username...');
+            await this.page.fill(this.usernameInput, process.env.GREYTHR_USERNAME || "");
+            console.log('Username filled, filling password...');
+            await this.page.fill(this.passwordInput, process.env.GREYTHR_PASSWORD || "");
             await this.page.click(this.loginButton);
-
-            console.log("clicked on the login");
-            console.log("Current URL after login:", this.page.url());
-
-            console.log("waiting for dashboard to hydrate...");
-
-            await this.page.waitForTimeout(5000);
-
-            console.log("URL after 5 sec:", this.page.url());
-
-            await this.page.screenshot({
-                path: "greythr-after-login.png",
-                fullPage: true,
-            });
-
-            console.log(
-                "btn-container count:",
-                await this.page.locator(".btn-container").count()
-            );
-
-            console.log(
-                "body text:",
-                (await this.page.locator("body").innerText()).slice(0, 3000)
-            );
-
-            await this.page.waitForSelector(".btn-container", {
-                timeout: 60000,
-                state: "attached",
-            });
-
-            console.log(".btn-container found");
-
-            await this.page.waitForTimeout(1000);
-
+            console.log('clicked on the login');
+            console.log('waiting for dashboard to hydrate...');
+            // Let the OAuth redirect chain fully resolve, then wait for real hydrated content
+            await this.page.waitForSelector('.btn-container', { timeout: 60000, state: 'attached' });
+            console.log('.btn-container found, waiting for hydration...');
+            await this.page.waitForTimeout(1000); // let Stencil finish hydrating attributes/handlers
             console.log("Logged in to greythr successfully");
         } catch (error) {
             console.error("Error logging in to greythr", error);
-
-            console.log("Final URL:", this.page.url());
-
-            try {
-                await this.page.screenshot({
-                    path: "greythr-login-failed.png",
-                    fullPage: true,
-                });
-
-                console.log(
-                    "Final page text:",
-                    (await this.page.locator("body").innerText()).slice(0, 5000)
-                );
-            } catch (debugError) {
-                console.error("Could not capture debug information:", debugError);
-            }
-
             throw error;
         }
-    };
-    // loginToGreythr = async () => {
-    //     try {
-    //          console.log('Filling username...');
-    //         await this.page.fill(this.usernameInput, process.env.GREYTHR_USERNAME || "");
-    //            console.log('Username filled, filling password...');
-    //         await this.page.fill(this.passwordInput, process.env.GREYTHR_PASSWORD || "");
-    //         await this.page.click(this.loginButton);
-    //         console.log('clicked on the login');
-    //         console.log('waiting for dashboard to hydrate...');
-    //           // Let the OAuth redirect chain fully resolve, then wait for real hydrated content
-    //       await this.page.waitForSelector('.btn-container', { timeout: 60000, state: 'attached' });
-    //       console.log('.btn-container found, waiting for hydration...');
-    //       await this.page.waitForTimeout(1000); // let Stencil finish hydrating attributes/handlers
-    //         console.log("Logged in to greythr successfully");
-    //     } catch (error) {
-    //         console.error("Error logging in to greythr", error);
-    //         throw error;
-    //     }
-    // }
+    }
 
     async toggleAttendance() {
         console.log('Looking for attendance button...');
