@@ -44,5 +44,5 @@ jobs:
         with:
           name: attendance-debug
           path: |
-            attandence-report/
+            attandance-report/
             test-results/
