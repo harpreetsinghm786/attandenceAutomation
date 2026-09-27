@@ -9,7 +9,7 @@ export default defineConfig({
     [
       'html',
       {
-        outputFolder: 'attendance-report',
+        outputFolder: 'attendence-report',
         open: 'always',
       }
     ]
