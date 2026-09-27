@@ -10,12 +10,12 @@ export default defineConfig({
       'html',
       {
         outputFolder: 'attendence-report',
-        open: 'always',
+        open: 'never',
       }
     ]
   ],
   use: {
-    headless: false,
+    headless: true,
     actionTimeout: 90000,
     navigationTimeout: 90000,
     viewport: null,

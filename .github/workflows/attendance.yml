@@ -1,0 +1,39 @@
+name: Attendance Automation
+
+on:
+  workflow_dispatch:
+
+  schedule:
+    # 8:00 AM IST = 2:30 AM UTC
+    - cron: "30 2 * * 1-5"
+
+    # 8:00 PM IST = 2:30 PM UTC
+    - cron: "30 14 * * 1-5"
+
+jobs:
+  attendance:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Run attendance automation
+        env:
+          GREYTHR_USERNAME: ${{ secrets.GREYTHR_USERNAME }}
+          GREYTHR_PASSWORD: ${{ secrets.GREYTHR_PASSWORD }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: npm test
