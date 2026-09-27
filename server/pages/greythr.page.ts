@@ -18,7 +18,7 @@ export class GreythrPage {
 
   navigateToLoginpage = async () => {
     try {
-        await this.page.goto("https://pipin.greythr.com/v3/portal/ess/home");
+        await this.page.goto("https://pipin.greythr.com");
         await this.page.waitForSelector(this.usernameInput, { timeout: 30000 });
         console.log("Navigated to greythr webpage successfully");
     } catch (error) {
@@ -59,7 +59,6 @@ loginToGreythr = async () => {
         await attendanceButton.waitFor({ state: 'visible', timeout: 30000 });
     } catch (err) {
         console.error('Button never became visible. Current URL:', this.page.url());
-        await this.page.screenshot({ path: '/tmp/debug-timeout.png', fullPage: true });
         const html = await this.page.content();
         console.log('Page HTML snippet:', html.slice(0, 2000));
         throw err;
@@ -68,6 +67,7 @@ loginToGreythr = async () => {
     const action = (await attendanceButton.textContent())?.trim();
     console.log(`Current attendance state: ${action}`);
     await attendanceButton.click();
-    return action;
+    await this.page.waitForLoadState('networkidle');
+    return action?.toLowerCase() === "sign in";
 }
 }

@@ -1,6 +1,8 @@
 import { runAutomationJob } from "../server/automation/automation.runner";
+import {test} from '@playwright/test'
 
-async function runAttendenceTest() {
+
+async function runAttendanceTest() {
   try {
     console.log("Starting attendance test...");
 
@@ -12,4 +14,9 @@ async function runAttendenceTest() {
   }
 }
 
-runAttendenceTest();
+
+test.describe("greythr",()=>{
+  test("mark attendance",async ()=>{
+   await runAttendanceTest();
+  })
+})
