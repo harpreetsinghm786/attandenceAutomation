@@ -1,6 +1,5 @@
 /node_modules
 /test-results
 /attendance-report
-/attendence-report
 .env
 .DS_Store
