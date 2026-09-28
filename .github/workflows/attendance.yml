@@ -2,14 +2,7 @@ name: Attendance Automation
 
 on:
   workflow_dispatch:
-
-  schedule:
-    # 8:00 AM IST = 2:30 AM UTC
-    - cron: "30 2 * * 1-5"
-
-    # 8:00 PM IST = 2:30 PM UTC
-    - cron: "30 14 * * 1-5"
-
+  
 jobs:
   attendance:
     runs-on: ubuntu-latest
